@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var passwordTextFiled: UITextField!
     
-
+    var token : Token?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -29,10 +30,10 @@ class ViewController: UIViewController {
             return
         }
         
-        API.login.apiRequestData(method: .post, params: ["" : ""]) { (result : Result<Token, APIRestClient.APIServiceError>) in
+        API.login.apiRequestData(method: .post, params: [hasId : hasPassword]) { (result : Result<Token, APIRestClient.APIServiceError>) in
             switch result {
-            case .success(let contacts):
-                print("")
+            case .success(let token):
+                self.token = token
             case .failure(let error):
                 switch error {
                 case .internalServerError500:
